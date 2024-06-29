@@ -8,6 +8,7 @@ import (
 
 // function to initialize the group of routes
 func initializeRoutes(router *gin.Engine) {
+	handler.InitializeHandler()
 	v1 := router.Group("v1")
 	{
 
