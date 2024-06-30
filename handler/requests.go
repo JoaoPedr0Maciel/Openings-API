@@ -2,50 +2,68 @@ package handler
 
 import "fmt"
 
-
-func errParamerterIsRequired(name, typ string) error {
+func ErrParamerterIsRequired(name, typ string) error {
 	return fmt.Errorf("param (%s) is required (type '%s')", name, typ)
 }
 
 type CreateOpeningRequest struct {
-	Role        string `json:"role"`
-	Company     string `json:"company"`
-	Location    string `json:"location"`
-	Remote      *bool  `json:"remote"`
-	Link        string `json:"link"`
-	Salary      string `json:"salary"`
+	Role     string `json:"role"`
+	Company  string `json:"company"`
+	Location string `json:"location"`
+	Remote   *bool  `json:"remote"`
+	Link     string `json:"link"`
+	Salary   string `json:"salary"`
 }
 
 func (r *CreateOpeningRequest) Validate() error {
 
 	if r.Role == "" || r.Company == "" || r.Location == "" || r.Salary == "" || r.Link == "" || r.Remote == nil {
-    return fmt.Errorf("the request body are empty or malformed")
-  }
+		return fmt.Errorf("the request body are empty or malformed")
+	}
 
 	if r.Role == "" {
-		return errParamerterIsRequired("role", "string")
+		return ErrParamerterIsRequired("role", "string")
 	}
 
 	if r.Company == "" {
-    return errParamerterIsRequired("company", "string")
-  }
+		return ErrParamerterIsRequired("company", "string")
+	}
 
 	if r.Location == "" {
-    return errParamerterIsRequired("location", "string")
-  }
+		return ErrParamerterIsRequired("location", "string")
+	}
 
 	if r.Salary == "" {
-    return errParamerterIsRequired("salary", "string")
-  }
+		return ErrParamerterIsRequired("salary", "string")
+	}
 
 	if r.Remote == nil {
-    return errParamerterIsRequired("remote", "bool")
-  }
+		return ErrParamerterIsRequired("remote", "bool")
+	}
 
 	if r.Link == "" {
-    return errParamerterIsRequired("link", "string")
-  }
-
+		return ErrParamerterIsRequired("link", "string")
+	}
 
 	return nil
-} 
+}
+
+
+type UpdateOpeningRequest struct {
+	Role     string `json:"role"`
+	Company  string `json:"company"`
+	Location string `json:"location"`
+	Remote   *bool  `json:"remote"`
+	Link     string `json:"link"`
+	Salary   string `json:"salary"`
+}
+
+func (r *UpdateOpeningRequest) Validate() error {
+
+	// if any field is provided, return no error
+	if r.Role != "" || r.Company != "" || r.Location != "" || r.Salary != "" || r.Link != "" || r.Remote != nil {
+		return nil
+	}
+
+	return fmt.Errorf("at least one field must be provided")
+}
